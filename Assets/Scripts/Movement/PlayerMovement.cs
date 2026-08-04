@@ -143,7 +143,7 @@ namespace HorrorTemplate.Core
             IsMoving = rawInputDirection.magnitude > 0.01f;
 
             // Handle Crouch toggle
-            /*if (crouchAction != null && crouchAction.wasPressedThisFrame)
+            if (crouchAction != null && crouchAction.triggered)
             {
                 if (IsCrouching)
                 {
@@ -156,7 +156,7 @@ namespace HorrorTemplate.Core
                 {
                     IsCrouching = true;
                 }
-            }*/
+            }
 
             // Handle Sprint
             if (sprintAction != null)
@@ -177,10 +177,10 @@ namespace HorrorTemplate.Core
             }
 
             // Handle Jump
-            /*if (enableJumping && jumpAction != null && jumpAction.wasPressedThisFrame && isGrounded && !IsCrouching)
+            if (enableJumping && jumpAction != null && jumpAction.triggered && isGrounded && !IsCrouching)
             {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-            }*/
+            }
         }
 
         private void HandleGrounding()
