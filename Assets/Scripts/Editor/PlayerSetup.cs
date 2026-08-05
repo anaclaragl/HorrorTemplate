@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEditor;
 using UnityEngine.InputSystem;
 using HorrorTemplate.Core;
+using HorrorTemplate.Interaction;
+using HorrorTemplate.Inventory;
 
 namespace HorrorTemplate.Editor
 {
@@ -54,8 +56,10 @@ namespace HorrorTemplate.Editor
                 Debug.LogWarning("PlayerSetup: InputSystem_Actions.inputactions asset not found in the project. Please assign your input actions manually on the PlayerInput component.");
             }
 
-            // Add PlayerMovement
+            // Add Core components
             PlayerMovement movement = playerObj.AddComponent<PlayerMovement>();
+            PlayerInteraction interaction = playerObj.AddComponent<PlayerInteraction>();
+            PlayerInventory inventory = playerObj.AddComponent<PlayerInventory>();
 
             // Create Camera Child GameObject
             GameObject cameraObj = new GameObject("Player Camera");
@@ -81,6 +85,13 @@ namespace HorrorTemplate.Editor
             // Add PlayerCamera
             PlayerCamera playerCamera = cameraObj.AddComponent<PlayerCamera>();
 
+            // Create Hand Pivot Child under Camera (for held item visuals)
+            GameObject handPivotObj = new GameObject("Hand Pivot");
+            handPivotObj.transform.parent = cameraObj.transform;
+            // Place it slightly forward, right, and down relative to camera center
+            handPivotObj.transform.localPosition = new Vector3(0.2f, -0.3f, 0.5f);
+            handPivotObj.transform.localRotation = Quaternion.identity;
+
             // Set up inspector references explicitly
             SerializedObject movementSO = new SerializedObject(movement);
             SerializedProperty inputProp = movementSO.FindProperty("playerInput");
@@ -99,13 +110,29 @@ namespace HorrorTemplate.Editor
             if (cameraInputProp != null) cameraInputProp.objectReferenceValue = playerInput;
             cameraSO.ApplyModifiedProperties();
 
+            // Setup PlayerInteraction references
+            SerializedObject interactionSO = new SerializedObject(interaction);
+            SerializedProperty interactCamProp = interactionSO.FindProperty("playerCamera");
+            SerializedProperty interactInputProp = interactionSO.FindProperty("playerInput");
+            if (interactCamProp != null) interactCamProp.objectReferenceValue = camera;
+            if (interactInputProp != null) interactInputProp.objectReferenceValue = playerInput;
+            interactionSO.ApplyModifiedProperties();
+
+            // Setup PlayerInventory references
+            SerializedObject inventorySO = new SerializedObject(inventory);
+            SerializedProperty handPivotProp = inventorySO.FindProperty("handPivot");
+            SerializedProperty invCamProp = inventorySO.FindProperty("playerCamera");
+            if (handPivotProp != null) handPivotProp.objectReferenceValue = handPivotObj.transform;
+            if (invCamProp != null) invCamProp.objectReferenceValue = cameraObj.transform;
+            inventorySO.ApplyModifiedProperties();
+
             // Register created object with Undo system
             Undo.RegisterCreatedObjectUndo(playerObj, "Create Horror Player");
             
             // Focus on the new Player object
             Selection.activeGameObject = playerObj;
 
-            Debug.Log("PlayerSetup: Player GameObject successfully created and configured!");
+            Debug.Log("PlayerSetup: Player GameObject successfully created and configured with Movement, Camera, Interaction, and Single-Item Inventory systems!");
         }
     }
 }

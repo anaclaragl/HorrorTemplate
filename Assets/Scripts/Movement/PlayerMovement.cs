@@ -105,13 +105,22 @@ namespace HorrorTemplate.Core
         {
             if (playerInput == null) return;
 
-            var actionMap = playerInput.currentActionMap;
-            if (actionMap == null) return;
+            if (playerInput.actions != null)
+            {
+                moveAction = playerInput.actions.FindAction(moveActionName);
+                sprintAction = playerInput.actions.FindAction(sprintActionName);
+                crouchAction = playerInput.actions.FindAction(crouchActionName);
+                jumpAction = playerInput.actions.FindAction(jumpActionName);
+            }
 
-            moveAction = actionMap.FindAction(moveActionName);
-            sprintAction = actionMap.FindAction(sprintActionName);
-            crouchAction = actionMap.FindAction(crouchActionName);
-            jumpAction = actionMap.FindAction(jumpActionName);
+            if (moveAction == null && playerInput.currentActionMap != null)
+            {
+                var actionMap = playerInput.currentActionMap;
+                moveAction = actionMap.FindAction(moveActionName);
+                sprintAction = actionMap.FindAction(sprintActionName);
+                crouchAction = actionMap.FindAction(crouchActionName);
+                jumpAction = actionMap.FindAction(jumpActionName);
+            }
 
             moveAction?.Enable();
             sprintAction?.Enable();
@@ -121,6 +130,11 @@ namespace HorrorTemplate.Core
 
         private void Update()
         {
+            if (moveAction == null)
+            {
+                InitializeInputs();
+            }
+
             HandleInputs();
             HandleGrounding();
             HandleCrouching();
