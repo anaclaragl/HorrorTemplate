@@ -191,7 +191,7 @@ namespace HorrorTemplate.Core
             }
 
             // Handle Jump
-            if (enableJumping && jumpAction != null && jumpAction.triggered && isGrounded && !IsCrouching)
+            if (enableJumping && jumpAction != null && jumpAction.triggered && !IsCrouching)
             {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             }

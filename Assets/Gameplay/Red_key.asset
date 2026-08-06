@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HorrorTemplate.Inventory.ItemData
   itemId: 1
   displayName: Key
-  physicalPrefab: {fileID: 374289202576707483, guid: 78df1db2fbc8ec64f949fac0c05bf693, type: 3}
-  handPrefab: {fileID: 8488726654633101736, guid: 83a3238fdeadf4f409f27e867d04dcb5, type: 3}
+  physicalPrefab: {fileID: 2527888096981840233, guid: 83db5ca4e1f5d3e4493ef8495033e834, type: 3}
+  handPrefab: {fileID: 180557533655662575, guid: 930b7a19d446f4b4c9c810e37e84e625, type: 3}

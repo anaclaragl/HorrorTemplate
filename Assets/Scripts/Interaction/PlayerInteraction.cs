@@ -20,8 +20,8 @@ namespace HorrorTemplate.Interaction
         [SerializeField] private PlayerInput playerInput;
         [SerializeField] private string interactActionName = "Interact";
 
-        private InputAction interactAction;
-        private Interactable currentTarget;
+        [SerializeField] private InputAction interactAction;
+        [SerializeField] private Interactable currentTarget;
 
         // Event triggered when looked-at target changes. Sends the new target (or null if looking at nothing).
         public event Action<Interactable> OnInteractableTargetChanged;
@@ -58,8 +58,8 @@ namespace HorrorTemplate.Interaction
 
             if (playerInput.actions != null)
             {
-                Debug.Log("player input");
                 interactAction = playerInput.actions.FindAction(interactActionName);
+                Debug.Log("player input");
             }
 
             if (interactAction == null && playerInput.currentActionMap != null)
@@ -157,7 +157,7 @@ namespace HorrorTemplate.Interaction
 
         private void HandleInteractionInput()
         {
-            if (interactAction != null && interactAction.triggered)
+            if (interactAction != null && interactAction.WasPressedThisFrame())
             {
                 Debug.Log($"[PlayerInteraction] Pressed Interact key. Target under crosshair: {(currentTarget != null ? currentTarget.gameObject.name : "None")}");
                 if (currentTarget != null)
@@ -188,7 +188,7 @@ namespace HorrorTemplate.Interaction
             if (currentTarget != null)
             {
                 Gizmos.color = Color.green;
-                Gizmos.DrawWireCube(currentTarget.transform.position, Vector3.one * 0.2f);
+                Gizmos.DrawWireCube(currentTarget.transform.position, Vector3.one * 1f);
             }
         }
     }
