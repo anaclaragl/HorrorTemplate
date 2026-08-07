@@ -72,13 +72,17 @@ namespace HorrorTemplate.Inventory
 
             currentItem = item;
 
-            if (currentItem.HandPrefab != null && handPivot != null)
+            if (handPivot != null)
             {
-                spawnedHandModel = Instantiate(currentItem.HandPrefab, handPivot);
-                spawnedHandModel.transform.localPosition = Vector3.zero;
-                spawnedHandModel.transform.localRotation = Quaternion.identity;
-                
-                DisableCollidersAndPhysics(spawnedHandModel);
+                GameObject prefabToSpawn = currentItem.HandPrefab != null ? currentItem.HandPrefab : currentItem.PhysicalPrefab;
+                if (prefabToSpawn != null)
+                {
+                    spawnedHandModel = Instantiate(prefabToSpawn, handPivot);
+                    spawnedHandModel.transform.localPosition = Vector3.zero;
+                    spawnedHandModel.transform.localRotation = Quaternion.identity;
+                    
+                    DisableCollidersAndPhysics(spawnedHandModel);
+                }
             }
 
             OnItemEquipped?.Invoke(currentItem);
@@ -137,6 +141,26 @@ namespace HorrorTemplate.Inventory
             currentItem = null;
             OnItemDropped?.Invoke(itemToDrop);
             Debug.Log($"Inventory: Dropped item {itemToDrop.DisplayName}");
+        }
+
+        /// <summary>
+        /// Consumes the currently held item (destroys it without dropping it into the world).
+        /// </summary>
+        public void ConsumeCurrentItem()
+        {
+            if (!IsHoldingItem) return;
+
+            ItemData itemToConsume = currentItem;
+
+            if (spawnedHandModel != null)
+            {
+                Destroy(spawnedHandModel);
+                spawnedHandModel = null;
+            }
+
+            currentItem = null;
+            OnItemDropped?.Invoke(itemToConsume);
+            Debug.Log($"Inventory: Consumed item {itemToConsume.DisplayName}");
         }
 
         /// <summary>

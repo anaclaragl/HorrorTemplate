@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HorrorTemplate.Inventory.CollectibleItem
   promptMessage: Interact
-  interactionDistance: 2
+  interactionDistance: 4
   itemData: {fileID: 11400000, guid: feaa2b66668ace34ca36cc882be52072, type: 2}
 --- !u!54 &6293122487315876508
 Rigidbody:

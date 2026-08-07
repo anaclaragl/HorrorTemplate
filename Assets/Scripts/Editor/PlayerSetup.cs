@@ -88,9 +88,9 @@ namespace HorrorTemplate.Editor
             // Create Hand Pivot Child under Camera (for held item visuals)
             GameObject handPivotObj = new GameObject("Hand Pivot");
             handPivotObj.transform.parent = cameraObj.transform;
-            // Place it slightly forward, right, and down relative to camera center
-            handPivotObj.transform.localPosition = new Vector3(0.2f, -0.3f, 0.5f);
-            handPivotObj.transform.localRotation = Quaternion.identity;
+            // Place it slightly forward, left, and down relative to camera center (invisible hand position)
+            handPivotObj.transform.localPosition = new Vector3(-0.4f, -0.27f, 0.65f);
+            handPivotObj.transform.localRotation = Quaternion.Euler(0f, 0f, -40f);
 
             // Set up inspector references explicitly
             SerializedObject movementSO = new SerializedObject(movement);

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f509f4fb88eaf1f428b9569f767d4e0b, type: 3}
   m_Name: Red_key
   m_EditorClassIdentifier: Assembly-CSharp::HorrorTemplate.Inventory.ItemData
-  itemId: 1
+  itemId: id_red_key
   displayName: Key
   physicalPrefab: {fileID: 2527888096981840233, guid: 83db5ca4e1f5d3e4493ef8495033e834, type: 3}
-  handPrefab: {fileID: 180557533655662575, guid: 930b7a19d446f4b4c9c810e37e84e625, type: 3}
+  handPrefab: {fileID: 0}
