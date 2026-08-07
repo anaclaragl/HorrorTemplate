@@ -1568,7 +1568,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HorrorTemplate.Interaction.LockedObject
   promptMessage: DoorOpen
   interactionDistance: 2
-  requiredItemId: id_key_red
+  requiredItemId: id_red_key
   consumeItemOnUse: 1
   lockedPrompt: Unlock Door
   noKeyMessage: It's locked. I need the Red Key.
