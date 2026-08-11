@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using HorrorTemplate.Audio;
 
 namespace HorrorTemplate.Inventory
 {
@@ -21,6 +22,8 @@ namespace HorrorTemplate.Inventory
         [SerializeField] private float dropForwardOffset = 0.8f;
         [Tooltip("Vertical height offset relative to player transform where item is spawned when dropped.")]
         [SerializeField] private float dropHeightOffset = 1.0f;
+        [Tooltip("Noise radius emitted to alert nearby enemies when an item is dropped.")]
+        [SerializeField] private float dropNoiseRadius = 12.0f;
 
         // Active state
         private ItemData currentItem;
@@ -132,6 +135,9 @@ namespace HorrorTemplate.Inventory
                     Vector3 forceVec = (dropDirection + Vector3.up * 0.2f).normalized * dropTossForce;
                     rb.AddForce(forceVec, ForceMode.Impulse);
                 }
+
+                // Alert nearby enemies to the dropped item noise
+                PlayerSoundEmitter.EmitSound(spawnPos, dropNoiseRadius);
             }
             else
             {

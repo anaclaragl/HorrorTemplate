@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using HorrorTemplate.Audio;
 
 namespace HorrorTemplate.Core
 {
@@ -36,6 +37,8 @@ namespace HorrorTemplate.Core
         [SerializeField] private float walkFootstepInterval = 1.4f;
         [SerializeField] private float sprintFootstepInterval = 0.8f;
         [SerializeField] private float crouchFootstepInterval = 1.8f;
+        [Tooltip("Base distance in meters that walking footsteps noise travels to alert enemies.")]
+        [SerializeField] private float baseFootstepNoiseRadius = 4.0f;
 
         [Header("Input Setup")]
         [SerializeField] private PlayerInput playerInput;
@@ -292,6 +295,12 @@ namespace HorrorTemplate.Core
         private void TriggerFootstep(float noiseIntensity)
         {
             OnFootstep?.Invoke(transform.position, noiseIntensity);
+
+            // Alert nearby enemies if moving (crouching is silent)
+            if (!IsCrouching)
+            {
+                PlayerSoundEmitter.EmitSound(transform.position, baseFootstepNoiseRadius * noiseIntensity);
+            }
         }
 
         private void OnDrawGizmosSelected()
