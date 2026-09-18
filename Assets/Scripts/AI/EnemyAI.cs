@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using HorrorTemplate.Audio;
+using HorrorTemplate.Gameplay;
 
 namespace HorrorTemplate.AI
 {
@@ -54,6 +55,10 @@ namespace HorrorTemplate.AI
         
         [Tooltip("How many seconds the enemy continues chasing towards the last known position after losing sight of the player.")]
         [SerializeField] private float lostSightCooldown = 3.5f;
+
+        [Header("Attack Settings")]
+        [Tooltip("Distance at which the enemy catches the player.")]
+        [SerializeField] private float catchDistance = 1.5f;
 
         // References & State Variables
         private NavMeshAgent agent;
@@ -247,6 +252,17 @@ namespace HorrorTemplate.AI
             {
                 SetState(EnemyState.Patrol);
                 return;
+            }
+
+            if (Vector3.Distance(transform.position, playerTransform.position) <= catchDistance)
+            {
+                PlayerCaptureManager captureManager = playerTransform.GetComponent<PlayerCaptureManager>();
+                if (captureManager != null)
+                {
+                    captureManager.CapturePlayer();
+                    SetState(EnemyState.Patrol);
+                    return;
+                }
             }
 
             if (HasLineOfSightToPlayer())
